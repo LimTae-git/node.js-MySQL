@@ -5,16 +5,8 @@ var qs = require('querystring');
 var template = require('./lib/template.js');
 var path = require('path');
 var sanitizeHtml = require('sanitize-html');
-
 var mysql = require('mysql');
-var db = mysql.createConnection({
-  host : 'localhost',
-  user : 'root',
-  password : 'xotmd2',
-  database : 'opentutorials'
-});
-db.connect();
-
+var db = require('./lib/db');
 
 var app = http.createServer(function(request,response){
   var _url = request.url;
@@ -83,7 +75,7 @@ var app = http.createServer(function(request,response){
           <textarea name="description" placeholder="description"></textarea>
           </p>
           <p>
-            ${template.authorSelect(authors)}
+          ${template.authorSelect(authors)}
           </p>
           <p>
           <input type="submit">
@@ -137,7 +129,7 @@ var app = http.createServer(function(request,response){
             <textarea name="description" placeholder="description">${topic[0].description}</textarea>
             </p>
             <p>
-                ${template.authorSelect(authors, topic[0].author_id)}
+            ${template.authorSelect(authors, topic[0].author_id)}
             </p>
             <p>
             <input type="submit">
@@ -181,9 +173,9 @@ var app = http.createServer(function(request,response){
         response.end();
       });
     });
-} else {
-  response.writeHead(404);
-  response.end('Not found');
-}
+  } else {
+    response.writeHead(404);
+    response.end('Not found');
+  }
 });
 app.listen(3000);
